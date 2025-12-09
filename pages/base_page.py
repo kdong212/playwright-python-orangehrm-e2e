@@ -121,35 +121,7 @@ class BasePage:
         print(f"[Assert] Check '{text}' exists")
         expect(self._get_locator(locator)).to_contain_text(text)
 
-    # def select_from_select2(self, container_locator: str, search_text: str):
-    #     """
-    #     Click vào dropdown (Select2), nhập từ khóa và nhấn Enter để chọn item.
-    #     Args:
-    #         container_locator: locator ổn định của Select2 (ví dụ: ".select2-selection--single")
-    #         search_text: giá trị cần chọn (ví dụ: "Australia")
-    #     """
-    #     print(f"[Select2] Click on: {container_locator}")
-    #     self.wait_for_element(container_locator)
-
-    #     count = self.page.locator(container_locator).count()
-    #     print("Found Country dropdown:", count)
-    #     self.page.locator(container_locator).click()
-
-    #     print(f"[Select2] Search for: {search_text}")
-    #     search_input = self.page.get_by_role("searchbox").nth(0)
-    #     search_input.fill(search_text)
-    #     search_input.press("Enter")
-
-    #     print("[Select2] Done selecting item.")
-
-    #     # Đợi dropdown đóng
-    #     try:
-    #         self.page.wait_for_selector(".select2-results__options", state="detached", timeout=3000)
-    #     except:
-    #         pass
-
-    #     # Click ra ngoài để release
-    #     self.page.locator("body").click(position={"x": 0, "y": 0})
+  
 
     def find_select2_display_by_label(self, label: str):
         """
@@ -164,7 +136,13 @@ class BasePage:
 
         locator.wait_for(state="visible")
         return locator
-
+    
+    def _get_text(self,locator:str):
+        element = self.page.locator(locator)
+        element.wait_for(state="visible",timeout=10000)
+        text_content = element.inner_text()
+        return text_content
+    
     def _get_frame_or_page(self, frame_selector: str = None):
         """
         Nếu frame_selector được cung cấp (CSS hoặc iframe id), trả về FrameLocator's frame.
